@@ -1,20 +1,25 @@
 extends KinematicBody2D
 
-const PROJECTILE_SPEED := 35
+const _PROJECTILE_SPEED := 35
+const _FIRING_SPEED = 20
+const _PROJECTILE_SPREAD := 15
 
 var _move_speed := 800
 var _is_firing := false
 var _move_vector := Vector2(0, 0)
 var _firing_vector := Vector2(0, 0)
+var _firing_timer_value : float
+var _projectile_spread_rad : float = deg2rad(_PROJECTILE_SPREAD)
 
 onready var _DirJoy = $UI/MainContainer/DirJoy
 onready var _FireJoy = $UI/MainContainer/FireJoy
 onready var _FiringTimer = $FiringTimer
 onready var _Projectile = preload("res://game/other/Projectile.tscn").instance()
+onready var _ProjectilesContainer = $"../Projectiles"
 
 
 func _ready():
-	pass
+	_firing_timer_value = 1.0 / float(_FIRING_SPEED)
 
 
 func _physics_process(delta):
@@ -40,12 +45,12 @@ func _config_firing() -> void:
 func _fire() -> void:
 	_is_firing = true
 	var new_projectile = _Projectile.duplicate()
-	new_projectile.speed = PROJECTILE_SPEED
+	new_projectile.speed = _PROJECTILE_SPEED
 	new_projectile.global_position = global_position
-	new_projectile.fire(_firing_vector)
-	get_parent().add_child(new_projectile)
-	_FiringTimer.start()
-	print("FIRREEEEEE!!!!!")
+	var projectile_vector = _firing_vector.rotated(rand_range(-_projectile_spread_rad, _projectile_spread_rad))
+	new_projectile.fire(projectile_vector)
+	_ProjectilesContainer.add_child(new_projectile)
+	_FiringTimer.start(_firing_timer_value)
 
 
 func _on_FiringTimer_timeout():

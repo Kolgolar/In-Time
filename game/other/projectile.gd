@@ -15,3 +15,7 @@ func _physics_process(delta):
 func fire(direction) -> void:
 	_should_move = true
 	_fly_direction = direction
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()

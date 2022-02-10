@@ -23,7 +23,7 @@ _global_script_class_icons={
 config/name="Sovok"
 run/main_scene="res://game/main/Main.tscn"
 config/icon="res://icon.png"
-config/version="0.0.2 alpha"
+config/version="0.0.2.1 alpha"
 
 [autoload]
 
