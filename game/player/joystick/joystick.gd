@@ -31,6 +31,8 @@ export(VisibilityMode) var visibility_mode := VisibilityMode.ALWAYS
 # Use Input Actions
 export var use_input_actions := true
 
+export var get_inputs := false
+
 # Project -> Project Settings -> Input Map
 export var action_left := "ui_left"
 export var action_right := "ui_right"
@@ -89,6 +91,18 @@ func _input(event: InputEvent) -> void:
 		if event.index == _touch_index:
 			_update_joystick(event.position)
 			get_tree().set_input_as_handled()
+	
+	if get_inputs:
+		var touch_pos := Vector2(0, 0)
+		if Input.is_action_pressed("ui_left"):
+			touch_pos += Vector2(-1, 0)
+		if Input.is_action_pressed("ui_right"):
+			touch_pos += Vector2(1, 0)
+		if Input.is_action_pressed("ui_up"):
+			touch_pos += Vector2(0, -1)
+		if Input.is_action_pressed("ui_down"):
+			touch_pos += Vector2(0, 1)
+		_update_joystick(_base.rect_global_position + _base_radius + touch_pos.normalized() * clampzone_size)
 
 func _move_base(new_position: Vector2) -> void:
 	_base.rect_global_position = new_position - _base.rect_pivot_offset * get_global_transform_with_canvas().get_scale()

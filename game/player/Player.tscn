@@ -49,6 +49,9 @@ margin_left = 0.0
 margin_top = -200.0
 margin_right = 200.0
 margin_bottom = 0.0
+joystick_mode = 1
+use_input_actions = false
+get_inputs = true
 
 [node name="Info" parent="UI/MainContainer/DirJoy" index="1"]
 text = "Moving"
@@ -60,6 +63,8 @@ margin_left = -200.0
 margin_top = -200.0
 margin_right = 0.0
 margin_bottom = 0.0
+joystick_mode = 1
+use_input_actions = false
 
 [node name="Info" parent="UI/MainContainer/FireJoy" index="1"]
 text = "Firing"
