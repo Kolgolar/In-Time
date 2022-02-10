@@ -24,13 +24,36 @@ animation = "test"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="FireJoy" parent="UI" instance=ExtResource( 1 )]
+[node name="MainContainer" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 150.0
+margin_top = 100.0
+margin_right = -150.0
+margin_bottom = -100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="DirJoy" parent="UI" instance=ExtResource( 1 )]
+[node name="DirJoy" parent="UI/MainContainer" instance=ExtResource( 1 )]
+margin_left = 0.0
+margin_top = -200.0
+margin_right = 200.0
+margin_bottom = 0.0
+
+[node name="Info" parent="UI/MainContainer/DirJoy" index="1"]
+text = "Moving"
+
+[node name="FireJoy" parent="UI/MainContainer" instance=ExtResource( 1 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -250.0
-margin_right = -50.0
+margin_left = -200.0
+margin_top = -200.0
+margin_right = 0.0
+margin_bottom = 0.0
 
-[editable path="UI/FireJoy"]
-[editable path="UI/DirJoy"]
+[node name="Info" parent="UI/MainContainer/FireJoy" index="1"]
+text = "Firing"
+
+[editable path="UI/MainContainer/DirJoy"]
+[editable path="UI/MainContainer/FireJoy"]

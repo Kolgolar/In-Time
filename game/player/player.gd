@@ -3,8 +3,8 @@ extends KinematicBody2D
 var _move_vector := Vector2(0, 0)
 var _move_speed := 800
 
-onready var _DirJoy = $UI/DirJoy
-onready var _FireJoy = $UI/FireJoy
+onready var _DirJoy = $UI/MainContainer/DirJoy
+onready var _FireJoy = $UI/MainContainer/FireJoy
 
 func _ready():
 	pass

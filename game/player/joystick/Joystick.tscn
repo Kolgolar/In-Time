@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/player/joystick/joystick.gd" type="Script" id=1]
 [ext_resource path="res://game/player/joystick/textures/joystick_base_outline.png" type="Texture" id=2]
 [ext_resource path="res://game/player/joystick/textures/joystick_tip.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/fonts/default_font.tres" type="DynamicFont" id=4]
 
 [node name="Joystick" type="Control"]
 modulate = Color( 1, 1, 1, 0.509804 )
@@ -56,3 +57,16 @@ stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Info" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_top = -91.0
+margin_right = 20.0
+margin_bottom = -24.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 4 )
+text = "Kek"
+align = 1
+valign = 1
