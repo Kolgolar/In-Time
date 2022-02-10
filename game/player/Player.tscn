@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/player/joystick/Joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -12,15 +12,25 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 60, 60 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 892, 555 )
 script = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
 animation = "test"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 1 )
+shape = SubResource( 2 )
+
+[node name="FiringTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -54,6 +64,8 @@ margin_bottom = 0.0
 
 [node name="Info" parent="UI/MainContainer/FireJoy" index="1"]
 text = "Firing"
+
+[connection signal="timeout" from="FiringTimer" to="." method="_on_FiringTimer_timeout"]
 
 [editable path="UI/MainContainer/DirJoy"]
 [editable path="UI/MainContainer/FireJoy"]
