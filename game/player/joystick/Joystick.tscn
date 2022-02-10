@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://joystick/textures/joystick_base_outline.png" type="Texture" id=1]
-[ext_resource path="res://joystick/textures/joystick_tip_arrows.png" type="Texture" id=2]
-[ext_resource path="res://joystick/virtual_joystick.gd" type="Script" id=3]
+[ext_resource path="res://game/player/joystick/joystick.gd" type="Script" id=1]
+[ext_resource path="res://game/player/joystick/textures/joystick_base_outline.png" type="Texture" id=2]
+[ext_resource path="res://game/player/joystick/textures/joystick_tip.png" type="Texture" id=3]
 
-[node name="Virtual joystick" type="Control"]
+[node name="Joystick" type="Control"]
 modulate = Color( 1, 1, 1, 0.509804 )
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -12,7 +12,7 @@ margin_left = 50.0
 margin_top = -250.0
 margin_right = 250.0
 margin_bottom = -50.0
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -31,7 +31,7 @@ grow_vertical = 2
 rect_pivot_offset = Vector2( 100, 100 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
@@ -51,7 +51,7 @@ grow_vertical = 2
 rect_pivot_offset = Vector2( 50, 50 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false

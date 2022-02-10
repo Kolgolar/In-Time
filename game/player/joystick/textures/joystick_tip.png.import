@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/joystick_tip_arrows.png-24181c1685f5ada8a18ad959204d741d.stex"
+path="res://.import/joystick_tip.png-d7ce19be9c0f69e4023c19bfb23534a9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/joystick/textures/joystick_tip_arrows.png"
-dest_files=[ "res://.import/joystick_tip_arrows.png-24181c1685f5ada8a18ad959204d741d.stex" ]
+source_file="res://game/player/joystick/textures/joystick_tip.png"
+dest_files=[ "res://.import/joystick_tip.png-d7ce19be9c0f69e4023c19bfb23534a9.stex" ]
 
 [params]
 

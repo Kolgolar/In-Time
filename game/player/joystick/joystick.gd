@@ -9,6 +9,7 @@ extends Control
 # The color of the button when the joystick is in use.
 export(Color) var pressed_color := Color.gray
 
+
 # If the input is inside this range, the output is zero.
 export(float, 0, 200, 1) var deadzone_size : float = 10
 

@@ -10,17 +10,6 @@ var timer : Timer
 
 func _ready():
 	reload()
-#	timer = Timer.new()
-#	timer.connect("timeout", self, "fuck")
-#	add_child(timer)
-#	timer.start()
-#
-#
-#
-#func fuck():
-#	_set_size_values()
-#	_update_min_max_pos()
-#	print_resolutions()
 
 
 func reload() -> void:
