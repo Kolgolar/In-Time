@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://game/player/joystick/Joystick.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/player/joystick/joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://game/player/player.gd" type="Script" id=3]
+[ext_resource path="res://game/other/projectile.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 28, 28 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -13,20 +17,26 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 60, 60 )
+extents = Vector2( 28, 28 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 892, 555 )
 script = ExtResource( 3 )
 
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, 1 )
+shape = SubResource( 3 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
 animation = "test"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="FiringTimer" type="Timer" parent="."]
 one_shot = true
@@ -46,30 +56,49 @@ __meta__ = {
 
 [node name="DirJoy" parent="UI/MainContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
-margin_top = -200.0
-margin_right = 200.0
+margin_top = -300.0
+margin_right = 300.0
 margin_bottom = 0.0
+deadzone_size = 10.0
 joystick_mode = 1
 use_input_actions = false
-get_inputs = true
+should_get_keys_input = true
 
 [node name="Info" parent="UI/MainContainer/DirJoy" index="1"]
+margin_left = -99.0
+margin_top = -88.0
+margin_right = 99.0
+margin_bottom = -21.0
 text = "Moving"
 
 [node name="FireJoy" parent="UI/MainContainer" instance=ExtResource( 1 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -200.0
-margin_top = -200.0
+margin_left = -300.0
+margin_top = -300.0
 margin_right = 0.0
 margin_bottom = 0.0
 joystick_mode = 1
 use_input_actions = false
 
 [node name="Info" parent="UI/MainContainer/FireJoy" index="1"]
+margin_left = -82.5
+margin_top = -88.0
+margin_right = 82.5
+margin_bottom = -21.0
 text = "Firing"
 
+[node name="Projectile" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 100, 37 )
+
+[node name="Sprite" parent="Projectile" index="0"]
+self_modulate = Color( 0.313726, 1, 0, 1 )
+scale = Vector2( 0.33, 0.33 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="timeout" from="FiringTimer" to="." method="_on_FiringTimer_timeout"]
 
 [editable path="UI/MainContainer/DirJoy"]
 [editable path="UI/MainContainer/FireJoy"]
+[editable path="Projectile"]

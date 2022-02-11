@@ -31,7 +31,7 @@ export(VisibilityMode) var visibility_mode := VisibilityMode.ALWAYS
 # Use Input Actions
 export var use_input_actions := true
 
-export var get_inputs := false
+export var should_get_keys_input := false
 
 # Project -> Project Settings -> Input Map
 export var action_left := "ui_left"
@@ -92,7 +92,7 @@ func _input(event: InputEvent) -> void:
 			_update_joystick(event.position)
 			get_tree().set_input_as_handled()
 	
-	if get_inputs:
+	elif event is InputEventKey and should_get_keys_input:
 		var touch_pos := Vector2(0, 0)
 		if Input.is_action_pressed("ui_left"):
 			touch_pos += Vector2(-1, 0)
