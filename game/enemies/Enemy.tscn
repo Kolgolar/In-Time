@@ -1,56 +1,88 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://game/enemies/sprites/enemy_1.png" type="Texture" id=1]
 [ext_resource path="res://game/enemies/enemy.gd" type="Script" id=2]
 [ext_resource path="res://game/enemies/projectiles_spawner.gd" type="Script" id=3]
 [ext_resource path="res://game/other/projectile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/enemies/sprites/enemy_3.png" type="Texture" id=5]
+[ext_resource path="res://game/enemies/sprites/enemy_2.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 32, 28 )
+extents = Vector2( 32, 112 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
-"name": "test",
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "walk",
 "speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 32 )
+extents = Vector2( 32, 112 )
 
-[node name="Enemy" type="KinematicBody2D"]
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.929412, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.27451, 0, 0, 1 )
+
+[node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
 position = Vector2( 960, 540 )
 script = ExtResource( 2 )
-projectiles_quantity = 8
-shots_per_sec = 2.0
+
+[node name="PlayerDetector" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 2000, 0 )
+collision_mask = 5
 
 [node name="ProjectilesSpawner" type="Node2D" parent="."]
 script = ExtResource( 3 )
 
 [node name="Projectile" parent="ProjectilesSpawner" instance=ExtResource( 4 )]
 position = Vector2( 80, 56 )
+can_be_destruct = false
 
-[node name="Sprite" parent="ProjectilesSpawner/Projectile" index="0"]
-self_modulate = Color( 1, 0, 0, 1 )
-scale = Vector2( 0.33, 0.33 )
+[node name="AnimatedSprite" parent="ProjectilesSpawner/Projectile" index="0"]
+frame = 1
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, 4 )
 shape = SubResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-self_modulate = Color( 0.780392, 0.215686, 0.215686, 1 )
-rotation = -3.14159
+scale = Vector2( 5, 5 )
 frames = SubResource( 1 )
-animation = "test"
+animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 4 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="FiringTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+margin_left = -30.0
+margin_top = -160.0
+margin_right = 40.0
+margin_bottom = -144.0
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
+max_value = 4.0
+step = 1.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="timeout" from="FiringTimer" to="." method="_on_FiringTimer_timeout"]

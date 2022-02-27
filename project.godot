@@ -20,10 +20,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Sovok"
+config/name="In Time"
 run/main_scene="res://game/main/main.tscn"
 config/icon="res://icon.png"
-config/version="0.0.3 alpha"
+config/version="0.0.7 alpha"
 
 [autoload]
 

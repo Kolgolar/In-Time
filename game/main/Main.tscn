@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/ui/fonts/ScienceGothic[YOPQ,wdth,wght,slnt].otf" type="DynamicFontData" id=1]
 [ext_resource path="res://game/player/player.tscn" type="PackedScene" id=2]
@@ -7,46 +7,529 @@
 [ext_resource path="res://game/enemies/enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/ui/buttons/button_restart.png" type="Texture" id=6]
 [ext_resource path="res://game/ui/buttons/button_restart_pressed.png" type="Texture" id=7]
+[ext_resource path="res://game/world/rooms/teleporter.gd" type="Script" id=8]
+[ext_resource path="res://game/music/game_music.mp3" type="AudioStream" id=9]
+[ext_resource path="res://game/items/ammo.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/world/first.png" type="Texture" id=11]
+[ext_resource path="res://game/world/central.png" type="Texture" id=12]
+[ext_resource path="res://game/world/lower.png" type="Texture" id=13]
+[ext_resource path="res://game/world/last.png" type="Texture" id=14]
 
-[sub_resource type="DynamicFont" id=1]
-size = 20
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 79.0008, 1250 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 83.5007, 604 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 10, 20 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 10, 45.6 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 80
 use_filter = true
 font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=13]
+resource_name = "win"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.01, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.01 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("YouFool:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "Поздравляю, товарищ!
+Вы выиграли!", "Поздравляю, товарищ!
+Вы выиграли!" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.01, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.00784314, 0.0509804, 0.282353, 1 ), Color( 0.00784314, 0.0509804, 0.282353, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "youfool"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.01, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.01 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("YouFool:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "Время вышло!
+Вы проиграли!", "Время вышло!
+Вы проиграли!" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.01, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.211765, 0, 0.0705882, 1 ), Color( 0.211765, 0, 0.0705882, 1 ) ]
+}
 
 [sub_resource type="DynamicFont" id=2]
 size = 100
 use_filter = true
 font_data = ExtResource( 1 )
 
+[sub_resource type="DynamicFont" id=3]
+size = 80
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "empty"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.988235, 0.215686, 0.215686, 1 ), Color( 1, 1, 1, 1 ), Color( 0.988235, 0.215686, 0.215686, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "pickup"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 1, 0.0862745, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 1, 0.0862745, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+use_filter = true
+font_data = ExtResource( 1 )
+
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
 
+[node name="Rooms" type="Node2D" parent="."]
+
+[node name="Left" type="Sprite" parent="Rooms"]
+position = Vector2( 1256, 704 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 11 )
+
+[node name="Enemies" type="Node" parent="Rooms/Left"]
+
+[node name="Enemy" parent="Rooms/Left/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 1944, 696 )
+_drop_num = 0
+
+[node name="Walls" type="Node2D" parent="Rooms/Left"]
+
+[node name="WallHorizontal" type="StaticBody2D" parent="Rooms/Left/Walls"]
+position = Vector2( -11.2, -139.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Left/Walls/WallHorizontal"]
+position = Vector2( -22.0013, 54.0002 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallHorizontal2" type="StaticBody2D" parent="Rooms/Left/Walls"]
+position = Vector2( -11.2, 131.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Left/Walls/WallHorizontal2"]
+position = Vector2( -31.001, 54.0001 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallVertical" type="StaticBody2D" parent="Rooms/Left/Walls"]
+position = Vector2( -232, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Left/Walls/WallVertical"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="WallVertical2" type="StaticBody2D" parent="Rooms/Left/Walls"]
+position = Vector2( 236.8, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Left/Walls/WallVertical2"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="Teleporter" type="Area2D" parent="Rooms/Left"]
+position = Vector2( 209.6, 0 )
+script = ExtResource( 8 )
+node_path = NodePath("../../Central/Teleporter")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Left/Teleporter"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="Ammo" parent="Rooms/Left" instance=ExtResource( 10 )]
+position = Vector2( -41.6, 94.4 )
+
+[node name="Central" type="Sprite" parent="Rooms"]
+position = Vector2( 5712, 680 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 12 )
+
+[node name="Enemies" type="Node" parent="Rooms/Central"]
+
+[node name="Enemy" parent="Rooms/Central/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6480, 1088 )
+_drop_num = 1
+
+[node name="Enemy2" parent="Rooms/Central/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6296, 360 )
+
+[node name="Walls" type="Node2D" parent="Rooms/Central"]
+
+[node name="WallHorizontal" type="StaticBody2D" parent="Rooms/Central/Walls"]
+position = Vector2( -11.2, -139.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Walls/WallHorizontal"]
+position = Vector2( -22.0013, 54.0002 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallHorizontal2" type="StaticBody2D" parent="Rooms/Central/Walls"]
+position = Vector2( -11.2, 131.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Walls/WallHorizontal2"]
+position = Vector2( -31.001, 54.0001 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallVertical" type="StaticBody2D" parent="Rooms/Central/Walls"]
+position = Vector2( -232, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Walls/WallVertical"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="WallVertical2" type="StaticBody2D" parent="Rooms/Central/Walls"]
+position = Vector2( 236.8, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Walls/WallVertical2"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="Teleporter" type="Area2D" parent="Rooms/Central"]
+position = Vector2( -204.8, 0 )
+script = ExtResource( 8 )
+node_path = NodePath("../../Left/Teleporter")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Teleporter"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="Teleporter2" type="Area2D" parent="Rooms/Central"]
+position = Vector2( -4.80017, -107.2 )
+rotation = 1.57079
+script = ExtResource( 8 )
+node_path = NodePath("../../Up/Teleporter2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Teleporter2"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="Teleporter3" type="Area2D" parent="Rooms/Central"]
+position = Vector2( 208, 0 )
+script = ExtResource( 8 )
+node_path = NodePath("../../Right/Teleporter")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Central/Teleporter3"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="Ammo" parent="Rooms/Central" instance=ExtResource( 10 )]
+position = Vector2( -107.2, -80 )
+
+[node name="Up" type="Sprite" parent="Rooms"]
+position = Vector2( 5712, -2664 )
+rotation = 3.14159
+scale = Vector2( 5, 5 )
+texture = ExtResource( 13 )
+
+[node name="Enemies" type="Node" parent="Rooms/Up"]
+
+[node name="Enemy" parent="Rooms/Up/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 5096, -2984 )
+_drop_num = 2
+
+[node name="Enemy2" parent="Rooms/Up/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6386, -2944 )
+
+[node name="Walls" type="Node2D" parent="Rooms/Up"]
+
+[node name="WallHorizontal" type="StaticBody2D" parent="Rooms/Up/Walls"]
+position = Vector2( -11.2, -139.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Up/Walls/WallHorizontal"]
+position = Vector2( -22.0013, 54.0002 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallHorizontal2" type="StaticBody2D" parent="Rooms/Up/Walls"]
+position = Vector2( -11.2, 131.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Up/Walls/WallHorizontal2"]
+position = Vector2( -31.001, 54.0001 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallVertical" type="StaticBody2D" parent="Rooms/Up/Walls"]
+position = Vector2( -232, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Up/Walls/WallVertical"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="WallVertical2" type="StaticBody2D" parent="Rooms/Up/Walls"]
+position = Vector2( 236.8, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Up/Walls/WallVertical2"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="Teleporter2" type="Area2D" parent="Rooms/Up"]
+position = Vector2( -11.1996, -108.8 )
+rotation = 1.57079
+script = ExtResource( 8 )
+node_path = NodePath("../../Central/Teleporter2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Up/Teleporter2"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="Ammo" parent="Rooms/Up" instance=ExtResource( 10 )]
+position = Vector2( -179.2, -52.8008 )
+rotation = 3.14159
+
+[node name="Right" type="Sprite" parent="Rooms"]
+position = Vector2( 10992, 728 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 14 )
+
+[node name="Enemies" type="Node" parent="Rooms/Right"]
+
+[node name="Enemy" parent="Rooms/Right/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 11304, 1092 )
+_drop_num = 3
+
+[node name="Enemy2" parent="Rooms/Right/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 11432, 364 )
+
+[node name="Enemy3" parent="Rooms/Right/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 11752, 700 )
+
+[node name="Walls" type="Node2D" parent="Rooms/Right"]
+
+[node name="WallHorizontal" type="StaticBody2D" parent="Rooms/Right/Walls"]
+position = Vector2( -11.2, -139.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/Walls/WallHorizontal"]
+position = Vector2( -22.0013, 54.0002 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallHorizontal2" type="StaticBody2D" parent="Rooms/Right/Walls"]
+position = Vector2( -11.2, 131.2 )
+rotation = -1.57079
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/Walls/WallHorizontal2"]
+position = Vector2( -31.001, 54.0001 )
+rotation = -2.27374e-13
+shape = SubResource( 4 )
+
+[node name="WallVertical" type="StaticBody2D" parent="Rooms/Right/Walls"]
+position = Vector2( -232, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/Walls/WallVertical"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="WallVertical2" type="StaticBody2D" parent="Rooms/Right/Walls"]
+position = Vector2( 236.8, -139.2 )
+scale = Vector2( 0.2, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/Walls/WallVertical2"]
+position = Vector2( -3.50052, 700 )
+rotation = -2.27374e-13
+shape = SubResource( 10 )
+
+[node name="Teleporter" type="Area2D" parent="Rooms/Right"]
+position = Vector2( -204.8, 0 )
+script = ExtResource( 8 )
+node_path = NodePath("../../Central/Teleporter3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/Teleporter"]
+position = Vector2( 0, -0.800003 )
+shape = SubResource( 11 )
+
+[node name="EndTrigger" type="Area2D" parent="Rooms/Right"]
+position = Vector2( 209.6, 3.20001 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Right/EndTrigger"]
+position = Vector2( 0, -7.19998 )
+shape = SubResource( 12 )
+
+[node name="Ammo" parent="Rooms/Right" instance=ExtResource( 10 )]
+position = Vector2( -63.999, -68.8 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 608, 720 )
 
-[node name="GameUI" type="CanvasLayer" parent="."]
+[node name="Projectiles" type="Node" parent="."]
 
-[node name="Version" type="Label" parent="GameUI"]
-self_modulate = Color( 1, 1, 1, 0.588235 )
-anchor_left = 1.0
-anchor_top = 1.0
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="LateScreen" type="ColorRect" parent="UI"]
+visible = false
+modulate = Color( 1, 1, 1, 0.0168881 )
+self_modulate = Color( 0.00784314, 0.0509804, 0.282353, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -316.0
-margin_top = -30.0
-margin_right = 1.0
-custom_fonts/font = SubResource( 1 )
-text = "SOVOK v0.0.1 alpha"
-script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Projectiles" type="Node" parent="."]
+[node name="YouFool" type="Label" parent="UI/LateScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -266.5
+margin_top = -38.5
+margin_right = 266.5
+margin_bottom = 38.5
+grow_horizontal = 2
+custom_fonts/font = SubResource( 6 )
+text = "Время вышло!
+Вы проиграли!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Enemy" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1424, 432 )
-
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/LateScreen"]
+anims/win = SubResource( 13 )
+anims/youfool = SubResource( 7 )
 
 [node name="MainContainer" type="Control" parent="UI"]
 anchor_right = 1.0
@@ -82,7 +565,66 @@ margin_right = 303.5
 margin_bottom = 48.0
 grow_horizontal = 2
 custom_fonts/font = SubResource( 2 )
-text = "Game over!"
+text = "Вы проиграли!"
 
+[node name="Time" type="Label" parent="UI/MainContainer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 14.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 3 )
+text = "23:59:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Drop" type="Label" parent="UI/MainContainer"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -455.0
+margin_bottom = 77.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 5 )
+text = "0/0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/MainContainer/Drop"]
+anims/empty = SubResource( 8 )
+anims/pickup = SubResource( 9 )
+
+[node name="Version" type="Label" parent="UI"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.588235 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -316.0
+margin_top = -30.0
+margin_right = 1.0
+custom_fonts/font = SubResource( 1 )
+text = "SOVOK v0.0.1 alpha"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+autoplay = true
+
+[connection signal="area_entered" from="Rooms/Left/Teleporter" to="Rooms/Left/Teleporter" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Central/Teleporter" to="Rooms/Central/Teleporter" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Central/Teleporter2" to="Rooms/Central/Teleporter2" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Central/Teleporter3" to="Rooms/Central/Teleporter3" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Up/Teleporter2" to="Rooms/Up/Teleporter2" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Right/Teleporter" to="Rooms/Right/Teleporter" method="_on_Teleporter_area_entered"]
+[connection signal="area_entered" from="Rooms/Right/EndTrigger" to="." method="_on_EndTrigger_area_entered"]
 [connection signal="death" from="Player" to="." method="_on_Player_death"]
+[connection signal="drop_picked_up" from="Player" to="." method="_on_Player_drop_picked_up"]
 [connection signal="pressed" from="UI/MainContainer/Restart" to="." method="_on_Restart_pressed"]

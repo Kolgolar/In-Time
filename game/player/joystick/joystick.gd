@@ -174,3 +174,7 @@ func _reset():
 			Input.action_release(action_down)
 		if Input.is_action_pressed(action_up) or Input.is_action_just_pressed(action_up):
 			Input.action_release(action_up)
+
+
+func _on_Timer_timeout():
+	$Base/Info.hide()
